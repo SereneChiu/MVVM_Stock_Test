@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="MVVM_Test_Library.View.StockMonitorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MVVM_Test_Library.View"
+             xmlns:dd="clr-namespace:MVVM_Test_Library.ViewModel"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="320">
+    <UserControl.DataContext>
+        <dd:ViewDataModel/>
+    </UserControl.DataContext>
+    <Grid>
+        <DataGrid ItemsSource="{Binding ViewDataList}" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="80"/>
+                <DataGridTextColumn Header="Price" Binding="{Binding Price}" Width="100"/>
+                <DataGridTextColumn Header="Change Percentage" Binding="{Binding ChageRateStr}" Width="120"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>
