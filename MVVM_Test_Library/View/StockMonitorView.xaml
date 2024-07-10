@@ -11,7 +11,19 @@
         <dd:ViewDataModel/>
     </UserControl.DataContext>
     <Grid>
-        <DataGrid ItemsSource="{Binding ViewDataList}" AutoGenerateColumns="False">
+        <DataGrid ItemsSource="{Binding ViewDataList}" CanUserSortColumns="False" AutoGenerateColumns="False">
+            <DataGrid.Resources>
+                <Style TargetType="DataGridCell">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Status}" Value="Positive">
+                            <Setter Property="Foreground" Value="Green"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Status}" Value="Negative">
+                            <Setter Property="Foreground" Value="Red"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.Resources>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="80"/>
                 <DataGridTextColumn Header="Price" Binding="{Binding Price}" Width="100"/>

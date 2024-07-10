@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO.Enumeration;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,7 +13,7 @@ namespace MVVM_Test_Library.Model
     {
         private double m_price = 0.0;
         private double m_chage_rate = 0.0;
-       
+        private string m_status = "";
 
         public string Name { get; set; } = "";
         public double Price
@@ -22,11 +23,9 @@ namespace MVVM_Test_Library.Model
             { 
                 if (m_price == value) { return; }
                 m_price = value;
-                OnPropertyChanged("Price");
+                OnPropertyChanged(nameof(Price));
             }
         }
-
-
 
         public double ChageRate 
         {
@@ -35,9 +34,16 @@ namespace MVVM_Test_Library.Model
             {
                 if (m_chage_rate == value) { return; }
                 m_chage_rate = value;
-                OnPropertyChanged("ChageRate");
-                OnPropertyChanged("ChageRateStr");
+                m_status = (m_chage_rate > 0) ? "Positive" : "Negative";
+                OnPropertyChanged(nameof(ChageRate));
+                OnPropertyChanged(nameof(ChageRateStr));
+                OnPropertyChanged(nameof(Status));
             }
+        }
+
+        public string Status
+        {
+            get { return m_status; }
         }
 
         public string ChageRateStr
