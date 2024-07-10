@@ -19,7 +19,7 @@ namespace MVVM_Test_Library.ViewModel
         public int SliderValue { get; set; } = StockDataDefine.UPDATE_RATE_VIEW;
 
         private ObservableCollection<ViewData> m_view_data_list = new ObservableCollection<ViewData>();
-        private List<ViewData> m_model_data_list = new List<ViewData>();
+        private List<ModelData> m_model_data_list = new List<ModelData>();
 
         private Thread m_update_view_thread;
         private Thread m_update_model_thread;
@@ -47,9 +47,7 @@ namespace MVVM_Test_Library.ViewModel
             {
                 foreach (var data in m_model_data_list)
                 {
-                    var price_new = new Random().Next(StockDataDefine.PRICE_LOWER, StockDataDefine.PRICE_UPPER);
-                    data.ChageRate = (price_new - data.Price) / data.Price;
-                    data.Price = price_new;
+                    data.Price = new Random().Next(StockDataDefine.PRICE_LOWER, StockDataDefine.PRICE_UPPER);
                 }
                 Thread.Sleep(StockDataDefine.UPDATE_RATE_MODEL);
             }
@@ -72,7 +70,7 @@ namespace MVVM_Test_Library.ViewModel
                 for (int i = 0; i < StockDataDefine.TOTAL_DATA_COUNT; i++)
                 {
                     m_view_data_list[i].Price = m_model_data_list[i].Price;
-                    m_view_data_list[i].ChageRate = m_model_data_list[i].ChageRate;
+                    m_view_data_list[i].ChageRate = (m_model_data_list[i].Price - m_model_data_list[i].Price_Org)/ m_model_data_list[i].Price_Org;
                 }
                 Thread.Sleep(SliderValue);
             }
@@ -87,11 +85,11 @@ namespace MVVM_Test_Library.ViewModel
 
             for (int i = 0; i < StockDataDefine.TOTAL_DATA_COUNT; i++)
             {
-                m_model_data_list.Add(new ViewData()
+                m_model_data_list.Add(new ModelData()
                 {
                     Name = string.Format("Name_{0}", (i + 1).ToString()),
-                    Price = new Random().Next(StockDataDefine.PRICE_LOWER, StockDataDefine.PRICE_UPPER),
-                    ChageRate = 0
+                    Price_Org = new Random().Next(StockDataDefine.PRICE_LOWER, StockDataDefine.PRICE_UPPER),
+                    Price = 0
                 });
             }
 
