@@ -1,0 +1,46 @@
+name: CI/CD Pipeline for WPF Application
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '6.0'  # 設定適用的 .NET SDK 版本
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build
+      run: dotnet build --configuration Release
+
+    - name: Run tests
+      run: dotnet test --configuration Release
+
+  deploy:
+    runs-on: windows-latest
+    needs: build
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Publish WPF application
+      run: |
+        dotnet publish -c Release -o output
+        # 假設你的 WPF 應用程序需要在部署後進行進一步處理，例如打包成安裝程序或上傳到內部伺服器。
+        # 這裡可以添加自定義的部署腳本或命令。
